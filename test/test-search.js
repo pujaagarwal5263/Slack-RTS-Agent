@@ -1,0 +1,45 @@
+require('dotenv').config();
+const { searchSlack } = require('../helpers/rts-search');
+
+async function testSearch() {
+  try {
+    console.log('Testing Slack Real-Time Search API...\n');
+    
+    // Test with a simple search query
+    const query = 'help';
+    console.log(`Searching for: "${query}"`);
+    
+    const results = await searchSlack(query, {
+      channel_types: ['public_channel'],
+      content_types: ['messages'],
+      limit: 5,
+    });
+    
+    console.log('\nSearch completed successfully!');
+    console.log(`Found ${results.results?.length || 0} results`);
+    
+    if (results.results && results.results.length > 0) {
+      console.log('\nSample result:');
+      const firstResult = results.results[0];
+      const message = firstResult.message || firstResult;
+      console.log(`Author: ${message.author_name || 'Unknown'}`);
+      console.log(`Text: ${message.text?.substring(0, 100) || 'No text'}...`);
+    }
+    
+    console.log('\n✅ Your Slack app is configured correctly!');
+    console.log('✅ The Real-Time Search API is working!');
+    
+  } catch (error) {
+    console.error('\n❌ Error during test:');
+    console.error(error.message);
+    
+    if (error.message.includes('scope') || error.message.includes('permission')) {
+      console.error('\n⚠️  Make sure your app has these scopes:');
+      console.error('   - assistant.search.context (bot scope)');
+      console.error('   - channels:history');
+      console.error('   - channels:read');
+    }
+  }
+}
+
+testSearch();
