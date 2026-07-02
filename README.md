@@ -71,6 +71,29 @@ The app will start on `http://localhost:3000`
    ```
 3. The bot will search and return relevant past solutions
 
+## Testing the Webhook (Development Only)
+
+The project includes a script for testing Slack webhook notifications. This is intended for development/testing purposes only.
+
+### Setup
+
+1. Add your Slack incoming webhook URL to your `.env` file:
+   ```env
+   SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/WEBHOOK/URL
+   ```
+
+2. Run the deployment alert script with a test message:
+   ```bash
+   node scripts/send-deployment-alert.js "Test deployment tag 2.3.4 to staging failed"
+   ```
+
+   You can also test a failed deployment message:
+   ```bash
+   node scripts/send-deployment-alert.js "Deployment tag 2.3.4 failed on production successfully"
+   ```
+
+**Note**: This webhook testing script is for development purposes only and should not be used in production environments.
+
 ## Project Structure
 
 ```
