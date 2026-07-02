@@ -14,7 +14,7 @@ async function handleEvent(event) {
   if (event.type === 'app_mention') {
     const channelId = event.channel;
     const text = event.text.replace(/<@\w+>/g, '').trim();
-    const threadTs = event.ts;
+    const threadTs = event.thread_ts || event.ts;
     
     console.log(`Bot mentioned in channel ${channelId} with text: "${text}"`);
     
@@ -33,6 +33,9 @@ async function handleEvent(event) {
       return;
     }
     
+    // Skip if no text (e.g. file-only messages)
+    if (!text) return;
+
     // Skip if message looks like bot response (contains emoji indicators)
     if (text.includes(':mag:') || text.includes(':x:') || text.includes('Searching') || text.includes('Sorry, I encountered')) {
       console.log('Skipping likely bot response to prevent infinite loop');

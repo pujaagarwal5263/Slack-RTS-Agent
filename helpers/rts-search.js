@@ -30,7 +30,9 @@ async function searchSlack(query, options = {}) {
       count: limit,
     });
 
-    console.log(`Found ${result.results?.length || 0} results`);
+    const msgCount = result.results?.messages?.length || 0;
+    const fileCount = result.results?.files?.length || 0;
+    console.log(`Found ${msgCount} messages, ${fileCount} files`);
     return result;
   } catch (error) {
     console.error('Error searching Slack:', error);
@@ -249,8 +251,6 @@ function filterByRelevance(messages, query) {
  * @returns {string} Formatted results
  */
 function formatSearchResults(results, query = '') {
-  console.log('Formatting results:', results);
-  
   // Handle the actual API response structure
   const messagesArray = Array.isArray(results.results?.messages) ? results.results.messages : [];
   const filesArray = Array.isArray(results.results?.files) ? results.results.files : [];
@@ -266,7 +266,7 @@ function formatSearchResults(results, query = '') {
     if (content.includes('<@U')) return false;
     
     // Exclude messages from the bot itself
-    if (author.includes('POC App') || message.is_author_bot) return false;
+    if (message.is_author_bot) return false;
     
     // Exclude short messages that are likely questions
     if (content.length < 20) return false;

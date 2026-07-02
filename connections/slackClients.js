@@ -2,7 +2,6 @@ require('dotenv').config();
 const { WebClient } = require('@slack/web-api');
 
 let slackClientInstance = null;
-let botClientInstance = null;
 let userClientInstance = null;
 
 /**
@@ -18,21 +17,6 @@ function getSlackClient() {
     });
   }
   return slackClientInstance;
-}
-
-/**
- * Get Bot client instance (singleton)
- * @returns {WebClient} Bot WebClient instance
- */
-function getBotClient() {
-  if (!botClientInstance) {
-    botClientInstance = new WebClient(process.env.SLACK_BOT_TOKEN, {
-      retryConfig: {
-        retries: 0, // Disable automatic retries
-      },
-    });
-  }
-  return botClientInstance;
 }
 
 /**
@@ -52,6 +36,5 @@ function getUserClient() {
 
 module.exports = {
   getSlackClient,
-  getBotClient,
   getUserClient,
 };

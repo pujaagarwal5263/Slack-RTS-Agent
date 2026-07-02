@@ -15,15 +15,17 @@ async function testSearch() {
       limit: 5,
     });
     
+    const messages = results.results?.messages || [];
+    const files = results.results?.files || [];
     console.log('\nSearch completed successfully!');
-    console.log(`Found ${results.results?.length || 0} results`);
+    console.log(`Found ${messages.length} messages, ${files.length} files`);
     
-    if (results.results && results.results.length > 0) {
-      console.log('\nSample result:');
-      const firstResult = results.results[0];
-      const message = firstResult.message || firstResult;
-      console.log(`Author: ${message.author_name || 'Unknown'}`);
-      console.log(`Text: ${message.text?.substring(0, 100) || 'No text'}...`);
+    if (messages.length > 0) {
+      console.log('\nSample message result:');
+      const firstMessage = messages[0];
+      console.log(`Author: ${firstMessage.author_name || 'Unknown'}`);
+      console.log(`Text: ${firstMessage.content?.substring(0, 100) || 'No text'}...`);
+      console.log(`Link: ${firstMessage.permalink || 'No link'}`);
     }
     
     console.log('\n✅ Your Slack app is configured correctly!');
