@@ -264,10 +264,13 @@ function formatSearchResults(results, query = '') {
     
     // Exclude bot mentions (messages that start with <@U...>)
     if (content.includes('<@U')) return false;
-    
-    // Exclude messages from the bot itself
-    if (message.is_author_bot) return false;
-    
+
+    // Exclude messages from specified bots (allow reading from other bots/hooks like deployment alerts)
+    const botsToIgnore = process.env.BOTS_TO_IGNORE ? process.env.BOTS_TO_IGNORE.split(',').map(b => b.trim()) : [];
+    if (message.is_author_bot && botsToIgnore.includes(message.author_name)) {
+      return false;
+    }
+
     // Exclude short messages that are likely questions
     if (content.length < 20) return false;
     

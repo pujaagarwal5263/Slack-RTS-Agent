@@ -35,6 +35,8 @@ A Slack agent that uses the Real-Time Search (RTS) API to help users find soluti
    SLACK_BOT_TOKEN=xoxb-your-bot-token
    SLACK_USER_TOKEN=xoxp-your-user-token
    PORT=3000
+   SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/WEBHOOK/URL
+   BOTS_TO_IGNORE=POC App,Demo Bot,Test Bot
    ```
 
 ### Running the App
