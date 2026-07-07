@@ -137,6 +137,24 @@ assert('Excludes messages starting with question patterns', !questionFormatted.i
 assert('Includes answer-style messages', questionFormatted.includes('Eve'));
 
 // ---------------------------------------------------------------------------
+// thread-reader: parsePermalink
+// ---------------------------------------------------------------------------
+console.log('\n--- parsePermalink ---');
+
+const { parsePermalink } = require('../helpers/thread-reader');
+
+const parsed1 = parsePermalink('https://pujasworkspacegroup.slack.com/archives/C0BD9JAHQ30/p1782453255646679');
+assert('Extracts channel ID from permalink', parsed1?.channelId === 'C0BD9JAHQ30');
+assert('Converts p-timestamp to ts format (dot at position 10)', parsed1?.threadTs === '1782453255.646679');
+
+const parsed2 = parsePermalink('https://slack.com/archives/C123ABC/p1234567890123456');
+assert('Handles short workspace URL', parsed2?.channelId === 'C123ABC');
+assert('Converts 16-digit p-ts correctly', parsed2?.threadTs === '1234567890.123456');
+
+assert('Returns null for invalid permalink', parsePermalink('not-a-permalink') === null);
+assert('Returns null for null input', parsePermalink(null) === null);
+
+// ---------------------------------------------------------------------------
 // Summary
 // ---------------------------------------------------------------------------
 console.log(`\n--- Results: ${passed} passed, ${failed} failed ---\n`);

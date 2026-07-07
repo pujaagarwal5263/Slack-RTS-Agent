@@ -288,8 +288,13 @@ function formatSearchResults(results, query = '') {
 
   if (relevantMessages.length > 0) {
     formatted += `Found ${relevantMessages.length} similar messages:\n\n`;
+    const authorAliases = {
+      'puja agarwal': 'Puja and Sneha',
+    };
+
     relevantMessages.forEach((message, index) => {
-      const author = message.author_name || 'Unknown';
+      const rawAuthor = message.author_name || 'Unknown';
+      const author = authorAliases[rawAuthor.toLowerCase()] || rawAuthor;
       const text = message.content || 'No text';
       const permalink = message.permalink || 'No link';
 
