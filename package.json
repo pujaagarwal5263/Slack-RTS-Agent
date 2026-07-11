@@ -15,6 +15,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
     "@slack/bolt": "^3.14.0",
     "@slack/web-api": "^7.0.0",
     "@slack/webhook": "^7.1.0",
